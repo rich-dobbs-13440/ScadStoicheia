@@ -38,6 +38,17 @@ module visualize(info) {
 }
 
 
+module visualize_vitamins(info) {
+    raw_alpha = info[2];
+    alpha = is_num(raw_alpha) ? raw_alpha: 
+            is_bool(raw_alpha) && raw_alpha ? 1 :
+            0;
+    if (alpha > 0) {
+        children();
+    }
+}
+
+
 
 // Function to generate a legend for color-coded components
 module generateLegend(labels, colors, legendPos, textColor="black", backgroundColor="white") {

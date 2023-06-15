@@ -31,7 +31,7 @@ include <nutsnbolts-master/materials.scad>
     show_test_rod_all_octants = false;
     show_test_rod_rod_single_attribute = false;
     show_visual_test_for_crank = false;
-    show_visual_test_for_rod_support = true;
+    show_visual_test_for_rod_support = false;
  
 
     // h_by_one_hundred = 1; // [0 : 1 : 99.9]
@@ -159,10 +159,11 @@ module rod(d, l, center=0, hollow=false, taper=false, rank=1, fa=undef) {
     about the origin.
     
 */
-module can(d, h, center=0, hollow=false, taper=false, rank=1, fa=undef) {
+module can(d, h, center=0, hollow=false, taper=false, rank=1) {
+    assert(is_num(h));
+    assert(is_num(d));
     function swell(w=0) = w + 2*rank*eps;
     function swell_inward(w=0) = w - 2*rank*eps; 
-    $fa = is_undef(fa) ? $fa : fa;
     bv = _number_to_bitvector(center);
     size = [d, d, h];
     disp = _center_to_displacement(center, size);
@@ -562,7 +563,7 @@ size = [20, 10, 12];
 thickness = 2;
 clearance = 1;
 
-t_rail_slide(size, thickness, clearance);
+* t_rail_slide(size, thickness, clearance);
 
 module t_rail_slide(rail_size, rail_thickness, rail_mounting_y, clearance, slide_thickness) {
     inner = [

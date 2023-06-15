@@ -121,10 +121,17 @@ module center_rotate(from_axis, to_axis) {
 }
 
 
-module center_reflect(v) {
-    assert(!is_undef(v), "You must pass an mirroring argument to center_reflect()");
-    children();
-    mirror(v) children();
+module center_reflect(v, x_offset=0, y_offset=0, z_offset=0) {    
+    if (!is_undef(v)) {
+        children();
+        mirror(v) children();
+    } else {
+        center_reflect([1, 0, 0]) 
+            center_reflect([0, 1, 0])
+                center_reflect([0, 0, 1])
+                    translate([x_offset, y_offset, z_offset]) 
+                        children();    
+    }
 }
 
 
