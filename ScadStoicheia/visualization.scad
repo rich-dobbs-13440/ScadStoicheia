@@ -1,7 +1,7 @@
 // Customization variables
-legendPosX = 200;  // X position of the legend
-legendPosY = 200;  // Y position of the legend
-legendPosZ = -10;  // Z position of the legend
+legendPosX = 0;  // X position of the legend
+legendPosY = 0;  // Y position of the legend
+legendPosZ = 0;  // Z position of the legend
 
 // Stop customization
 module end_of_customization() {}
@@ -48,39 +48,52 @@ module visualize_vitamins(info) {
     }
 }
 
+module generate_legend_for_visualization(visualization_infos, legendPos, textColor="black", backgroundColor="white") {
+    // Extract the labels and colors from the visualization_infos
+    labels = [for (visualization_info = visualization_infos) visualization_info[0]];
+    colors = [for (visualization_info = visualization_infos) visualization_info[1]];
+
+    // Now call generate_legend with the extracted labels and colors
+    generate_legend(labels, colors, legendPos, textColor, backgroundColor);
+}
+
 
 
 // Function to generate a legend for color-coded components
-module generateLegend(labels, colors, legendPos, textColor="black", backgroundColor="white") {
+module generate_legend(labels, colors, legendPos, textColor="black", backgroundColor="white") {
     padding = 10;
     averageCharWidth = 10;
     averageCharHeight = 15;
-    maxLabelLength = max([for (label = labels) len(label)]);
     s = 10;
+    dy = -15; // Set the step in the y direction    
+    maxLabelLength = max([for (label = labels) len(label)]);
+    y_text_offset = -averageCharHeight - padding;
          
     legendWidth = maxLabelLength * averageCharWidth + 2 * padding;
     legendHeight = len(labels) * averageCharHeight + 2 * padding; 
 
     translate(legendPos) {
         for (i = [0:len(labels)-1]) {
-            translate([0, i * 15, 0]) {
+            translate([padding, y_text_offset + i * dy, 0]) {
                 color(colors[i]) {
                     cube(s);
                 }
                 color(textColor) 
-                    translate([15, 0, 0])
+                    translate([averageCharHeight, 0, 0])
                         text(labels[i]);
             }
         }
         color(backgroundColor)
-        translate([-padding, -padding, -s]) {
+        translate([0, -legendHeight, -s]) {
             cube([legendWidth, legendHeight, 1]); // Background rectangle for better visibility
         }
     }
 }
 
 
-generateLegend(componentLabels, componentColors, [legendPosX, legendPosY, legendPosZ]);
+
+
+generate_legend(componentLabels, componentColors, [legendPosX, legendPosY, legendPosZ]);
 
 // Define component labels and colors
 componentLabels = ["Component 1", "Component 2", "Component 3"];
