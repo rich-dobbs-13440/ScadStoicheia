@@ -17,7 +17,7 @@ module end_of_customization() {}
 
 function base_legend_text_characteristics() = generate_legend_text_characteristics(); 
 function font6_legend_text_characteristics() = generate_legend_text_characteristics(
-    font_size = 6, average_char_width = 5.8, line_height = 10, padding_factor = 0.6, cube_size_factor = 1.2, dy_factor = 1., text_color = "black", background_color = "white"); 
+    font_size = 6, average_char_width = 5.6, line_height = 10, padding_factor = 0.6, cube_size_factor = 1.2, dy_factor = 1., text_color = "black", background_color = "white"); 
 
 function visualize_info(label, color_code, alpha=1, mode="as_assembled", show_part_colors=false) = 
     assert(is_string(label))
