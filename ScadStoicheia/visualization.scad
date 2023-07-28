@@ -60,35 +60,36 @@ module generate_legend_for_visualization(visualization_infos, legendPos, textCol
 
 
 // Function to generate a legend for color-coded components
-module generate_legend(labels, colors, legendPos, textColor="black", backgroundColor="white") {
+module generate_legend(labels, colors, legend_pos, text_color="black", background_color="white") {
     padding = 10;
-    averageCharWidth = 10;
-    averageCharHeight = 15;
+    average_char_width = 10;
+    average_char_height = 15;
     s = 10;
     dy = -15; // Set the step in the y direction    
-    maxLabelLength = max([for (label = labels) len(label)]);
-    y_text_offset = -averageCharHeight - padding;
+    max_label_length = max([for (label = labels) len(label)]);
+    y_text_offset = -average_char_height - padding;
          
-    legendWidth = maxLabelLength * averageCharWidth + 2 * padding;
-    legendHeight = len(labels) * averageCharHeight + 2 * padding; 
+    legend_width = max_label_length * average_char_width + 2 * padding;
+    legend_height = len(labels) * average_char_height + 2 * padding; 
 
-    translate(legendPos) {
+    translate(legend_pos) {
         for (i = [0:len(labels)-1]) {
             translate([padding, y_text_offset + i * dy, 0]) {
                 color(colors[i]) {
                     cube(s);
                 }
-                color(textColor) 
-                    translate([averageCharHeight, 0, 0])
+                color(text_color) 
+                    translate([average_char_height, 0, 0])
                         text(labels[i]);
             }
         }
-        color(backgroundColor)
-        translate([0, -legendHeight, -s]) {
-            cube([legendWidth, legendHeight, 1]); // Background rectangle for better visibility
+        color(background_color)
+        translate([0, -legend_height, -s]) {
+            cube([legend_width, legend_height, 1]); // Background rectangle for better visibility
         }
     }
 }
+
 
 
 
