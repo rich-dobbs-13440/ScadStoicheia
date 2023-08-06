@@ -1,3 +1,13 @@
+function ASSEMBLE_SUBCOMPONENTS() = 3;
+function PRINTING() = 4;
+
+function layout_from_mode(mode) = 
+    mode == ASSEMBLE_SUBCOMPONENTS() ? "assemble" :
+    mode == PRINTING() ? "printing" :
+    "unknown";
+
+function mode_is_printing(mode) = mode == PRINTING();
+
 // Customization variables
 x_legend = 0;  // [ -200 : 200]
 y_legend = 0;  // [ -200 : 200]
