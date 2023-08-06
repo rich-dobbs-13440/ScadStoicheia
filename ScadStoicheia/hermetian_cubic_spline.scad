@@ -9,7 +9,7 @@ count = 50;
 dz = L/count;
 
 
-function hemetite_cubic_spline(z, L, M, Y) = 
+function hermetian_cubic_spline(z, L, M, Y) = 
     let(
         c4 = Y,
         c3 = M,
@@ -23,11 +23,11 @@ function hemetite_cubic_spline(z, L, M, Y) =
     
 for (i = [-100:2* count -1]) {
     z = i * dz;
-    r = hemetite_cubic_spline(z, L, M, Y);
+    r = hermetian_cubic_spline(z, L, M, Y);
     translate([r, 0, z]) sphere(d=1);
 }
 
-echo("hemetite_cubic_spline(L, L, M, Y) ", hemetite_cubic_spline(L, L, M, Y));
+echo("hermetian_cubic_spline(L, L, M, Y) ", hermetian_cubic_spline(L, L, M, Y));
 
 
 
