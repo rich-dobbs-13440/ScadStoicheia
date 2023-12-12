@@ -670,3 +670,43 @@ if (show_visual_test_for_rod_support) {
 }
 
 
+
+module pairwise_hull() {
+    for (i = [1: $children-1]) {
+        hull() {
+            children(i);
+            children(i-1);
+        }
+    }
+}
+
+
+module rounded_block(extent, radius = 2, sidesonly = false, center = CENTER) {
+    extent_for_rounding =  sidesonly == "XZ" ? [extent.x, extent.z, extent.y] : extent;
+    translation = 
+        center == CENTER ? [0, 0, 0] :
+        center == BELOW ? [0, 0,  -extent.z/2] :
+        
+        center == BEHIND + RIGHT + BELOW ? [-extent.x/2, extent.y/2, -extent.z/2] :
+        center == BEHIND + RIGHT + ABOVE ? [-extent.x/2, extent.y/2, extent.z/2] :
+        center == BEHIND + LEFT ?  [-extent.x/2, -extent.y/2, 0] :
+        center == BEHIND+LEFT+ABOVE ?  [-extent.x/2, -extent.y/2, extent.z/2] :
+        center == BEHIND + LEFT + BELOW ? [-extent.x/2, -extent.y/2, -extent.z/2] :
+        center == FRONT + RIGHT+ BELOW ? [extent.x/2, extent.y/2, -extent.z/2] :
+        center == FRONT +RIGHT ?  [extent.x/2, extent.y/2, 0] :
+        center == FRONT +RIGHT + ABOVE ? [extent.x/2, extent.y/2, extent.z/2] :
+        center == FRONT + RIGHT + BELOW ? [extent.x/2, extent.y/2, -extent.z/2] :
+        center == FRONT + LEFT + ABOVE ? [extent.x/2, -extent.y/2, extent.z/2] :
+        center == FRONT + LEFT + BELOW ? [extent.x/2, -extent.y/2, -extent.z/2] :
+        center == LEFT ? [0, -extent.y/2, 0] :
+        center == LEFT + BELOW ? [0, -extent.y/2,  -extent.z/2] :
+        center == RIGHT + BELOW ? [0, extent.y/2,  -extent.z/2] :
+        assert(false);
+    rotation = sidesonly == "XZ" ? [90, 0, 0] : 
+        sidesonly == false ? [0, 0, 0] :
+        assert(false);
+    translate(translation) rotate(rotation) {
+        roundedCube(extent_for_rounding,  r=radius, sidesonly=sidesonly != false, center=true, $fn=12);
+    }
+}
+
