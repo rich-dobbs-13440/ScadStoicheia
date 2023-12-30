@@ -683,7 +683,10 @@ module pairwise_hull() {
 
 
 module rounded_block(extent, radius = 2, sidesonly = false, center = CENTER) {
-    extent_for_rounding =  sidesonly == "XZ" ? [extent.x, extent.z, extent.y] : extent;
+    extent_for_rounding =  
+        sidesonly == "XZ" ? [extent.x, extent.z, extent.y] : 
+        sidesonly == "YZ" ? [extent.z, extent.y, extent.x] : 
+        extent;
     translation = 
         center == CENTER ? [0, 0, 0] :
         center == BELOW ? [0, 0,  -extent.z/2] :
@@ -703,7 +706,9 @@ module rounded_block(extent, radius = 2, sidesonly = false, center = CENTER) {
         center == LEFT + BELOW ? [0, -extent.y/2,  -extent.z/2] :
         center == RIGHT + BELOW ? [0, extent.y/2,  -extent.z/2] :
         assert(false);
-    rotation = sidesonly == "XZ" ? [90, 0, 0] : 
+    rotation = 
+        sidesonly == "XZ" ? [90, 0, 0] : 
+        sidesonly == "YZ" ? [0, 90, 0] :
         sidesonly == false ? [0, 0, 0] :
         assert(false);
     translate(translation) rotate(rotation) {
